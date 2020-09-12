@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>COVID-19 Miniproject | Home</title>
+  <link rel="stylesheet" href="css/home.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<body class="fullscreen">
+  <div class="symptom-test">
+    <form>
+	<br><br><h2>Are you experiencing any of the following symptoms?<br>Check all that apply.</h2>
+	<h3>These questions pertain only to new symptoms that have arisen in the past 14 days.</h3>
+	<input type="checkbox" id="symptom1" name="symptom1" value="fever">
+  	<label for="symptom1"> Fever of 100 F, or feeling unusually hot (if no thermometer available) accompanied by shivering/chills</label><br>
+
+  	<input type="checkbox" id="symptom2" name="symptom2" value="cough">
+  	<label for="symptom2"> New cough not related to chronic condition</label><br>
+
+  	<input type="checkbox" id="symptom3" name="symptom3" value="breathing">
+  	<label for="symptom3"> Difficulty breathing, shortness of breath</label><br>
+
+  	<input type="checkbox" id="symptom4" name="symptom4" value="throat">
+  	<label for="symptom4"> Sore throat</label><br>
+
+  	<input type="checkbox" id="symptom5" name="symptom5" value="loss">
+  	<label for="symptom5"> New loss of taste or smell</label><br>
+
+  	<input type="checkbox" id="symptom6" name="symptom6" value="vomiting">
+  	<label for="symptom6"> Vomiting</label><br>
+
+  	<input type="checkbox" id="symptom7" name="symptom7" value="fatigue">
+  	<label for="symptom7"> Severe fatigue</label><br>
+
+  	<input type="checkbox" id="symptom8" name="symptom8" value="muscle">
+  	<label for="symptom8"> Severe muscle aches</label><br><br>
+
+  	<button class="btn" id="submit">Submit</button> <!-- add a confirmation message for user -->
+</form>
+
+<h2>In the past 14 days...</h2> <!-- admin dashboard goes here! -->
+<!-- what to do here:
+- fetch data from database
+- plot data
+example: in the past 14 days...
+x people have experienced a fever
+y people have experienced a cough
+etc-->
+</div>
+
+<nav id="sidenav">
+	<ul>
+		<li><a href="index.html">Home</a></li>
+		<li><a href="yourdata.html">Your Data</a></li>
+		<li><a href="coviddata.html">COVID Data</a></li>
+	</ul>
+</nav>
+
+<img src="images/menu.png" id="menuBtn">
+
+<script>
+	var menuBtn = document.getElementById("menuBtn");
+	var sidenav = document.getElementById("sidenav");
+	var submit = document.getElementById("submit");
+
+	// save data from check boxes to database
+	// make sure the user can only submit ONCE per day 
+
+	sidenav.style.right = "-250px";
+	
+	menuBtn.onclick = function() {
+		if(sidenav.style.right=="-250px") {
+			sidenav.style.right = "0px";
+		} else {
+			sidenav.style.right = "-250px";
+		}
+	}
+
+// write function to store data to database, look at firebase documentation for this
+
+</script>
+
+</body>
+</html>

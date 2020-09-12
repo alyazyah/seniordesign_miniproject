@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>COVID-19 Miniproject</title>
+  <link rel="stylesheet" href="css/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body class="fullscreen">
+  <div class="container">
+    <h1 class="title">Welcome!</h1>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script>
+
+    <p1>Sign in with your Google account to get started</p1>
+    <br><br><button class="btn" id="loginbtn">Login</button>
+</div>
+
+<script>
+  var loginbtn = document.getElementById("loginbtn");
+
+  loginbtn.onclick = function() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+  firebase.auth().signInWithPopup(provider).then(function () {
+    window.location = "home.html";
+  }).catch(function (error) {
+    var errorMessage = error.message;
+    alert(errorMessage);
+  })
+  }
+  </script>
+
+</body>
+</html>
