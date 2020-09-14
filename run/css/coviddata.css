@@ -14,6 +14,8 @@ html,
 .container {
   margin: auto;
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .title {
@@ -63,4 +65,30 @@ nav ul li a{
 	top: 35px;
 	z-index: 2;
 	cursor: pointer;
+}
+
+.card{
+	width: 200px;
+	height: 200px;
+	background: #050004;
+	color: #CCC;
+	margin: 2rem;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center; 
+	position: relative;
+}
+
+.dataText{
+	font-size: 2rem;
+	color: #FFF;
+	margin-top: 1rem;
+	font-weight: bold;
+}
+
+.icon{
+	position: absolute;
+	right: 20px;
+	top: 20px;
 }

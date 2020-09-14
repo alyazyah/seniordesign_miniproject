@@ -4,6 +4,7 @@
   	<meta charset="utf-8">
   	<title>COVID-19 Miniproject | COVID Data</title>
   	<link rel="stylesheet" href="css/coviddata.css">
+  	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	</head>
 	<body class="fullscreen">
@@ -24,52 +25,92 @@
     				return response.json();
   				})
   				.then(function (data) {
-    				appendData(data);
+    				appendData(data[0]);
   				})
  				.catch(function (err) {
     				console.log(err);
   				});
  			function appendData(data){
- 				var mainContainer = document.getElementById("covidData");
-  				var div1 = document.createElement("div1");
-  				div1.innerHTML = 'Date: ' + data[0].date;
-  				mainContainer.appendChild(div1);
-  				var div2 = document.createElement("div2");
-  				div2.innerHTML = 'Last update: ' + data[0].dateChecked;
-  				mainContainer.appendChild(div2);
-  				var div3 = document.createElement("div3");
-  				div3.innerHTML = 'Total test results: ' + data[0].totalTestResults;
-  				mainContainer.appendChild(div3);
-  				var div4 = document.createElement("div4");
-  				div4.innerHTML = 'New tests: ' + data[0].totalTestResultsIncrease;
-  				mainContainer.appendChild(div4);
-  				var div5 = document.createElement("div5");
-  				div5.innerHTML = 'Total positive tests: ' + data[0].positive;
-  				mainContainer.appendChild(div5);
-  				var div6 = document.createElement("div6");
-  				div6.innerHTML = 'New positive cases: ' + data[0].positiveIncrease;
-  				mainContainer.appendChild(div6);
-  				var div7 = document.createElement("div7");
-  				div7.innerHTML = 'Total recovered: ' + data[0].recovered;
-  				mainContainer.appendChild(div7);
-  				var div8 = document.createElement("div8");
-  				div8.innerHTML = 'Total negative tests: ' + data[0].negative;
-  				mainContainer.appendChild(div8);
-  				var div9 = document.createElement("div9");
-  				div9.innerHTML = 'Total Deaths: ' + data[0].death;
-  				mainContainer.appendChild(div9);
-  				var div10 = document.createElement("div10");
-  				div10.innerHTML = 'New deaths: ' + data[0].deathIncrease;
-  				mainContainer.appendChild(div10);
-  				var div11 = document.createElement("div11");
-  				div11.innerHTML = 'Total hospitalized: ' + data[0].hospitalizedCumulative;
-  				mainContainer.appendChild(div11);
-  				var div12 = document.createElement("div12");
-  				div12.innerHTML = 'Currently hospitalized: ' + data[0].hospitalizedCurrently;
-  				mainContainer.appendChild(div12);
-  				var div13 = document.createElement("div13");
-  				div13.innerHTML = 'Newly hospitalized: ' + data[0].hospitalizedIncrease;
-  				mainContainer.appendChild(div13);
+ 				const mainContainer = document.getElementById("covidData");
+ 				const dataToDisp = ["date","dateChecked","totalTestResults","totalTestResultsIncrease","positive","positiveIncrease","recovered","negative","death","deathIncrease","hospitalizedCumulative","hospitalizedCurrently","hospitalizedIncrease"];
+
+ 				const covidData = dataToDisp.map(item => {
+ 					const d = (item === "date" || item === "dateChecked") ? (item === "date") ?`${data[item].toString().slice(-4,-2)}-${data[item].toString().slice(-2)}-${data[item].toString().slice(-8,-4)}`: `${new Date(data[item]).getMonth()+1}-${new Date(data[item]).getDate()}-${new Date(data[item]).getFullYear()}` : data[item].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+ 					const elm = `
+ 					<div class="card">
+ 						<i class="icon fas fa-${dispText(item).icon}"></i>
+ 						<div>${dispText(item).str}</div>
+ 						<div class="dataText">
+ 							${d}
+ 						</div>
+ 					</div>`;
+ 					return elm;
+ 				});
+
+ 				mainContainer.innerHTML = covidData.join("");
+ 			}
+
+ 			function dispText(type){
+ 				let str = "";
+ 				let icon = "";
+
+ 				switch(type){
+ 					case "date": 
+ 						str = "Date";
+ 						icon = "calendar-alt";
+ 						break;
+ 					case "dateChecked": 
+ 						str = "Last update";
+ 						icon = "clock";
+ 						break;
+ 					case "totalTestResults": 
+ 						str = "Total test results";
+ 						icon = "vial";
+ 						break;
+ 					case "totalTestResultsIncrease": 
+ 						str = "New tests";
+ 						icon = "vial";
+ 						break;
+ 					case "positive": 
+ 						str = "Total positive tests";
+ 						icon = "plus";
+ 						break;
+ 					case "positiveIncrease": 
+ 						str = "New positive cases";
+ 						icon = "plus";
+ 						break;
+ 					case "recovered": 
+ 						str = "Total recovered";
+ 						icon = "hospital-user";
+ 						break;
+ 					case "negative": 
+ 						str = "Total negative tests";
+ 						icon = "minus";
+ 						break;
+ 					case "death": 
+ 						str = "Total Deaths";
+ 						icon = "skull-crossbones";
+ 						break;
+ 					case "deathIncrease": 
+ 						str = "New deaths";
+ 						icon = "skull-crossbones";
+ 						break;
+ 					case "hospitalizedCumulative": 
+ 						str = "Total hospitalized";
+ 						icon = "hospital-user";
+ 						break;
+ 					case "hospitalizedCurrently": 
+ 						str = "Currently hospitalized";
+ 						icon = "hospital-user";
+ 						break;
+ 					case "hospitalizedIncrease": 
+ 						str = "Newly hospitalized";
+ 						icon = "hospital-user";
+ 						break;
+ 					default: 
+ 						str = "NA";
+ 				}
+ 				return {str,icon}; 
  			}
 
 			var menuBtn = document.getElementById("menuBtn");
