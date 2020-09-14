@@ -27,41 +27,34 @@
     <form id="stest">
 	<br><br><h2>Are you experiencing any of the following symptoms?<br>Check all that apply.</h2>
 	<h3>These questions pertain only to new symptoms that have arisen in the past 14 days.</h3>
-	<input type="checkbox" id="symptom1" name="symptom1" value="fever">
-  	<label for="symptom1"> Fever of 100 F, or feeling unusually hot (if no thermometer available) accompanied by shivering/chills</label><br>
+	<input type="checkbox" id="fever" value="1">
+  	<label for="fever"> Fever of 100 F, or feeling unusually hot (if no thermometer available) accompanied by shivering/chills</label><br>
 
-  	<input type="checkbox" id="symptom2" name="symptom2" value="cough">
-  	<label for="symptom2"> New cough not related to chronic condition</label><br>
+  	<input type="checkbox" id="cough" value="2">
+  	<label for="cough"> New cough not related to chronic condition</label><br>
 
-  	<input type="checkbox" id="symptom3" name="symptom3" value="breathing">
-  	<label for="symptom3"> Difficulty breathing, shortness of breath</label><br>
+  	<input type="checkbox" id="breathing" value="3">
+  	<label for="breathing"> Difficulty breathing, shortness of breath</label><br>
 
-  	<input type="checkbox" id="symptom4" name="symptom4" value="throat">
-  	<label for="symptom4"> Sore throat</label><br>
+  	<input type="checkbox" id="throat" value="4">
+  	<label for="throat"> Sore throat</label><br>
 
-  	<input type="checkbox" id="symptom5" name="symptom5" value="loss">
-  	<label for="symptom5"> New loss of taste or smell</label><br>
+  	<input type="checkbox" id="loss" value="5">
+  	<label for="loss"> New loss of taste or smell</label><br>
 
-  	<input type="checkbox" id="symptom6" name="symptom6" value="vomiting">
-  	<label for="symptom6"> Vomiting</label><br>
+  	<input type="checkbox" id="vomiting" value="6">
+  	<label for="vomiting"> Vomiting</label><br>
 
-  	<input type="checkbox" id="symptom7" name="symptom7" value="fatigue">
-  	<label for="symptom7"> Severe fatigue</label><br>
+  	<input type="checkbox" id="fatigue" value="7">
+  	<label for="fatigue"> Severe fatigue</label><br>
 
-  	<input type="checkbox" id="symptom8" name="symptom8" value="muscle">
-  	<label for="symptom8"> Severe muscle aches</label><br><br>
+  	<input type="checkbox" id="muscle" value="8">
+  	<label for="muscle"> Severe muscle aches</label><br><br>
 
   	<button class="btn" id="submit" onclick="submitClick()">Submit</button>
 </form>
 
-<h2>In the past 14 days...</h2> <!-- admin dashboard goes here! -->
-<!-- what to do here:
-- fetch data from database
-- display data
-example: in the past 14 days...
-x people have experienced a fever
-y people have experienced a cough
-etc-->
+<!-- add a link to admin dashboard? maybe secure it with password?? -->
 </div>
 
 <nav id="sidenav">

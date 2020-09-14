@@ -5,61 +5,41 @@ document.addEventListener('DOMContentLoaded', event => {
 
         const db = firebase.firestore(); // initialize firestore
 
-
       });
 
 // function to store data to database
-function submitClick() {
+function submitClick(name) {
 	const db = firebase.firestore();
-	var currentuser = firebase.auth().currentUser; // not hipaa compliant sorry :-(
-
-	var submit = document.getElementById("submit");
-	var symptom1 = document.getElementById("symptom1").checked;
-	var symptom2 = document.getElementById("symptom2").checked;
-	var symptom3 = document.getElementById("symptom3").checked;
-	var symptom4 = document.getElementById("symptom4").checked;
-	var symptom5 = document.getElementById("symptom5").checked;
-	var symptom6 = document.getElementById("symptom6").checked;
-	var symptom7 = document.getElementById("symptom7").checked;
-	var symptom8 = document.getElementById("symptom8").checked;
 	
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+	var currentuser = user.uid; // not hipaa compliant sorry :-(
+
+	// push checked symptoms (positive symptoms) into an array
+	var selected = new Array(); // number of positive symptoms
+	var stest = document.getElementById("stest");
+	var chks = stest.getElementsByTagName("INPUT");
+
+	for (var i = 0; i < chks.length; i++) {
+		if (chks[i].checked) {
+			selected.push(chks[i].value);
+		}
+	}
+
+	var negatives = 8 - selected.length; // number of negative symptoms
+	var testdate = new Date();
+
+	// want this to go into database
+	var userresults = {person: currentuser, date: testdate, positive_symptoms: selected, negative_symptoms: negatives};
+
 	window.alert("Thank you for submitting your results!"); // confirmation message
 
-	// Add a new document with a generated id.
-	const res = db.collection('user').add({
-  	date: new Date(),
-  	person: currentuser,
-  	fever: symptom1,
-	cough: symptom2,
-	breathing: symptom3,
-	throat: symptom4,
-	loss: symptom5,
-	vomiting: symptom6,
-	fatigue: symptom7,
-	muscle: symptom8
-	})
-	.then(function() {
-		console.log('Added document with ID: ', res.id);
-	})
-	.catch(function(error) {
-		console.error("Error: ", error);
-	});
-	
-	// disable submit button for one day!!
+	// this never happens??
+	var newUserRef = db.collection("user").doc();
+	newUserRef.set(userresults);
 
-		/*
-		--- Database ---
-		User: **randomly generated**
-		Time: use function
-		Fever (symptom1): either true or false
-		Cough (symptom2): either true or false
-		Difficulty breathing (symptom3): either true or false
-		Sore throat (symptom4): either true or false
-		Loss of taste/smell (symptom5): either true or false
-		Vomiting (symptom6): either true or false
-		Fatigue (symptom7): either true or false
-		Muscle aches (symptom8): either true or false
-		----------------
-		*/
-	//}
+} else {
+		console.log("No one is signed in.");
+	}
+});
 }
