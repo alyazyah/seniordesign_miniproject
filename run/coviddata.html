@@ -1,39 +1,89 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>COVID-19 Miniproject | COVID Data</title>
-  <link rel="stylesheet" href="css/coviddata.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<body class="fullscreen">
-  <div class="container">
-    use covid api here
-</div>
+	<head>
+  	<meta charset="utf-8">
+  	<title>COVID-19 Miniproject | COVID Data</title>
+  	<link rel="stylesheet" href="css/coviddata.css">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	</head>
+	<body class="fullscreen">
+  		<div class="container" id="covidData"></div>
+		<nav id="sidenav">
+			<ul>
+				<li><a href="home.html">Home</a></li>
+				<li><a href="yourdata.html">Your Data</a></li>
+				<li><a href="coviddata.html">COVID Data</a></li>
+			</ul>
+		</nav>
 
-<nav id="sidenav">
-	<ul>
-		<li><a href="home.html">Home</a></li>
-		<li><a href="yourdata.html">Your Data</a></li>
-		<li><a href="coviddata.html">COVID Data</a></li>
-	</ul>
-</nav>
+		<img src="images/menu.png" id="menuBtn">
 
-<img src="images/menu.png" id="menuBtn">
+		<script>
+			fetch("http://api.covidtracking.com/v1/us/current.json")
+  				.then(function (response) {
+    				return response.json();
+  				})
+  				.then(function (data) {
+    				appendData(data);
+  				})
+ 				.catch(function (err) {
+    				console.log(err);
+  				});
+ 			function appendData(data){
+ 				var mainContainer = document.getElementById("covidData");
+  				var div1 = document.createElement("div1");
+  				div1.innerHTML = 'Date: ' + data[0].date;
+  				mainContainer.appendChild(div1);
+  				var div2 = document.createElement("div2");
+  				div2.innerHTML = 'Last update: ' + data[0].dateChecked;
+  				mainContainer.appendChild(div2);
+  				var div3 = document.createElement("div3");
+  				div3.innerHTML = 'Total test results: ' + data[0].totalTestResults;
+  				mainContainer.appendChild(div3);
+  				var div4 = document.createElement("div4");
+  				div4.innerHTML = 'New tests: ' + data[0].totalTestResultsIncrease;
+  				mainContainer.appendChild(div4);
+  				var div5 = document.createElement("div5");
+  				div5.innerHTML = 'Total positive tests: ' + data[0].positive;
+  				mainContainer.appendChild(div5);
+  				var div6 = document.createElement("div6");
+  				div6.innerHTML = 'New positive cases: ' + data[0].positiveIncrease;
+  				mainContainer.appendChild(div6);
+  				var div7 = document.createElement("div7");
+  				div7.innerHTML = 'Total recovered: ' + data[0].recovered;
+  				mainContainer.appendChild(div7);
+  				var div8 = document.createElement("div8");
+  				div8.innerHTML = 'Total negative tests: ' + data[0].negative;
+  				mainContainer.appendChild(div8);
+  				var div9 = document.createElement("div9");
+  				div9.innerHTML = 'Total Deaths: ' + data[0].death;
+  				mainContainer.appendChild(div9);
+  				var div10 = document.createElement("div10");
+  				div10.innerHTML = 'New deaths: ' + data[0].deathIncrease;
+  				mainContainer.appendChild(div10);
+  				var div11 = document.createElement("div11");
+  				div11.innerHTML = 'Total hospitalized: ' + data[0].hospitalizedCumulative;
+  				mainContainer.appendChild(div11);
+  				var div12 = document.createElement("div12");
+  				div12.innerHTML = 'Currently hospitalized: ' + data[0].hospitalizedCurrently;
+  				mainContainer.appendChild(div12);
+  				var div13 = document.createElement("div13");
+  				div13.innerHTML = 'Newly hospitalized: ' + data[0].hospitalizedIncrease;
+  				mainContainer.appendChild(div13);
+ 			}
 
-<script>
-	var menuBtn = document.getElementById("menuBtn");
-	var sidenav = document.getElementById("sidenav");
+			var menuBtn = document.getElementById("menuBtn");
+			var sidenav = document.getElementById("sidenav");
 
-	sidenav.style.right = "-250px";
-	
-	menuBtn.onclick = function() {
-		if(sidenav.style.right=="-250px") {
-			sidenav.style.right = "0px";
-		} else {
 			sidenav.style.right = "-250px";
-		}
-	}
-</script>
-
-</body>
+			
+			menuBtn.onclick = function() {
+				if(sidenav.style.right=="-250px") {
+					sidenav.style.right = "0px";
+				} else {
+					sidenav.style.right = "-250px";
+				}
+			}
+		</script>
+	</body>
 </html>
