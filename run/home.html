@@ -5,9 +5,26 @@
   <title>COVID-19 Miniproject | Home</title>
   <link rel="stylesheet" href="css/home.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 <body class="fullscreen">
   <div class="symptom-test">
-    <form>
+
+  	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="/__/firebase/7.20.0/firebase-app.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="/__/firebase/7.20.0/firebase-analytics.js"></script>
+
+	<script src="/__/firebase/7.20.0/firebase-auth.js"></script>
+	<script src="/__/firebase/7.20.0/firebase-firestore.js"></script>
+
+	<!-- Initialize Firebase -->
+	<script src="/__/firebase/init.js"></script>
+
+	<script src="symptoms.js"></script>
+
+    <form id="stest">
 	<br><br><h2>Are you experiencing any of the following symptoms?<br>Check all that apply.</h2>
 	<h3>These questions pertain only to new symptoms that have arisen in the past 14 days.</h3>
 	<input type="checkbox" id="symptom1" name="symptom1" value="fever">
@@ -34,13 +51,13 @@
   	<input type="checkbox" id="symptom8" name="symptom8" value="muscle">
   	<label for="symptom8"> Severe muscle aches</label><br><br>
 
-  	<button class="btn" id="submit">Submit</button> <!-- add a confirmation message for user -->
+  	<button class="btn" id="submit" onclick="submitClick()">Submit</button>
 </form>
 
 <h2>In the past 14 days...</h2> <!-- admin dashboard goes here! -->
 <!-- what to do here:
 - fetch data from database
-- plot data
+- display data
 example: in the past 14 days...
 x people have experienced a fever
 y people have experienced a cough
@@ -60,10 +77,6 @@ etc-->
 <script>
 	var menuBtn = document.getElementById("menuBtn");
 	var sidenav = document.getElementById("sidenav");
-	var submit = document.getElementById("submit");
-
-	// save data from check boxes to database
-	// make sure the user can only submit ONCE per day 
 
 	sidenav.style.right = "-250px";
 	
@@ -74,8 +87,6 @@ etc-->
 			sidenav.style.right = "-250px";
 		}
 	}
-
-// write function to store data to database, look at firebase documentation for this
 
 </script>
 
