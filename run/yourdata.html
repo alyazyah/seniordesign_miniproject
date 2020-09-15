@@ -7,11 +7,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <body class="fullscreen">
   <div class="container">
-   <!-- this will be the page with all of the data the user has inputted about themselves
-    search for ur username
-    grab data that is just that user's (based on user id)
-    display
-    done :) -->
+
+  	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="/__/firebase/7.20.0/firebase-app.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="/__/firebase/7.20.0/firebase-analytics.js"></script>
+
+	<script src="/__/firebase/7.20.0/firebase-auth.js"></script>
+	<script src="/__/firebase/7.20.0/firebase-firestore.js"></script>
+
+	<!-- Initialize Firebase -->
+	<script src="/__/firebase/init.js"></script>
+
+	<!--<script src="userdash.js"></script>-->
+
+	<form>
+		<h4>Enter the email you logged in with to get a key to access your symptom survey data.</h3><br>
+			<label for="uemail">Email:</label>
+			<input type="text" id="uemail" name="uemail">
+			<button class="btn" id="enter" onclick="return enterClick()">Enter</button>
+</form>
+<p id="showuid"></p>
+
+	<form>
+		<br><br><h4>Enter the key you just received.</h3>
+			<label for="key">Enter key:</label>
+			<input type="text" id="key" name="key">
+			<button class="btn" id="Go" onclick="return goClick()">Go</button>
+</form>
+
 </div>
 
 <nav id="sidenav">
@@ -23,6 +49,13 @@
 </nav>
 
 <img src="images/menu.png" id="menuBtn">
+
+<script>
+	document.addEventListener('DOMContentLoaded', event => {
+		const app = firebase.app();
+        console.log(app)
+    });
+</script>
 
 <script>
 	var menuBtn = document.getElementById("menuBtn");
@@ -37,6 +70,82 @@
 			sidenav.style.right = "-250px";
 		}
 	}
+
+</script>
+
+<script>
+
+// validate email & get user key
+function enterClick(name) {
+	
+	firebase.auth().onAuthStateChanged(function(user) {
+
+		if (user) {
+		const currentuser = user.uid;
+		var currentuseremail = user.email; // again not hipaa compliant sorry :-(
+		const uemail = document.getElementById("uemail").value;
+
+		if (uemail !== currentuseremail) {
+			document.getElementById("showuid").innerHTML = "";
+			window.alert("Please enter the email you logged in with.");
+		} else {
+			// print uid to screen
+			document.getElementById("showuid").innerHTML = currentuser;
+		}
+
+} else {
+		console.log("No one is signed in.");
+	}
+});
+
+return false;
+
+}
+
+</script>
+
+<script>
+
+// display user dashboard!
+function goClick(name) {
+	
+	const db = firebase.firestore();
+	firebase.auth().onAuthStateChanged(function(user) {
+
+		if (user) {
+
+		const currentuser = user.uid;
+		const key = document.getElementById("key").value;
+
+		if (key !== currentuser) { // validate key
+			window.alert("Please enter the correct key.");
+		} else {
+			// fetch from database, based on key (uid) entered
+			db.collection("user").where("person", "==", currentuser)
+			.get()
+			.then(function(querySnapshot) {
+				querySnapshot.forEach(function(doc) {
+					// doc.data() is never undefined for query doc snapshots
+					console.log(doc.id, " => ", doc.data());
+				});
+			})
+			.catch(function(error) {
+				console.log("Error getting documents: ", error);
+			});
+
+			// display dashboard here
+			// make sure the values correspond to what the symptoms are (for clarity)
+		}
+
+} else {
+		console.log("No one is signed in.");
+	}
+});
+
+return false;
+
+}
+
 </script>
 
 </body>
