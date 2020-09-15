@@ -26,20 +26,22 @@ function submitClick(name) {
 		}
 	}
 
-	var negatives = 8 - selected.length; // number of negative symptoms
 	var testdate = new Date();
 
 	// want this to go into database
-	var userresults = {person: currentuser, date: testdate, positive_symptoms: selected, negative_symptoms: negatives};
+	var userresults = {person: currentuser, date: testdate, positive_symptoms: selected};
+	console.log(userresults);
 
-	window.alert("Thank you for submitting your results!"); // confirmation message
-
-	// this never happens??
 	var newUserRef = db.collection("user").doc();
 	newUserRef.set(userresults);
+
+	window.alert("Thank you for submitting your results!"); // confirmation message
 
 } else {
 		console.log("No one is signed in.");
 	}
 });
+
+return false;
+
 }
