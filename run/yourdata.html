@@ -21,8 +21,6 @@
 	<!-- Initialize Firebase -->
 	<script src="/__/firebase/init.js"></script>
 
-	<!--<script src="userdash.js"></script>-->
-
 	<form>
 		<h4>Enter the email you logged in with to get a key to access your symptom survey data.</h3><br>
 			<label for="uemail">Email:</label>
@@ -38,6 +36,7 @@
 			<button class="btn" id="Go" onclick="return goClick()">Go</button>
 </form>
 
+<p id="userdash"></p>
 </div>
 
 <nav id="sidenav">
@@ -127,14 +126,19 @@ function goClick(name) {
 				querySnapshot.forEach(function(doc) {
 					// doc.data() is never undefined for query doc snapshots
 					console.log(doc.id, " => ", doc.data());
+
+					const olddate = doc.data().date;
+					//var printdate = new Date(olddate);
+					const symptomnum = doc.data().positive_symptoms;
+
+					// display 
+					userdash.innerHTML += `<p><b>Date:</b> ${olddate.toDate()}</p>`; // show date
+					userdash.innerHTML += `<p><b>Number of positive symptoms:</b> ${symptomnum.length}</p>`; // show how many positive symptoms
 				});
 			})
 			.catch(function(error) {
 				console.log("Error getting documents: ", error);
 			});
-
-			// display dashboard here
-			// make sure the values correspond to what the symptoms are (for clarity)
 		}
 
 } else {
