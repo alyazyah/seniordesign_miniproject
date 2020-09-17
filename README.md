@@ -4,23 +4,70 @@ Alyazyah Almarzooqi & Mohammed Alsoughayer
 
 Our project is hosted on https://covid19-miniproject.web.app/
 
-## Summary (incomplete)
-The main goals for this miniproject are to:
+## Summary (incomplete–admin dashboard)
+For this project, we created a COVID web application that is hosted on Firebase and written in HTML/CSS and JavaScript. The web app allows users to sign in, fill out a daily symptom test, access their data, and access COVID data in the United States. Additionally, there is an admin dashboard. The COVID data uses an API and is updated everyday. Users' information and survey results are stored in the Firestore database, and authentication is done using Google SSO.
+
+Disclaimer: This web app is not HIPAA-compliant, but it still attempts to secure the user in ways that are described in the sections below.
 
 ## Evaluation Criteria (incomplete)
 
+#### Web Hosting
 
-## Challenges (incomplete)
+#### Authentication
 
+#### Daily Tracker of Symptoms
 
-## Solution Design (incomplete)
+#### Admin Dashboard
+
+#### Informational COVID Data
+
+#### Demonstration of Agile Development
+
+## Challenges
+Throughout working on this project, we came across three main challenges and obstacles:
+* Navigating HTML/CSS, JavaScript, and Firebase for the first time
+* Finding a way to secure the user's information
+* Managing the data in the database
+
+The first challenge listed was the group's biggest challenge, as these were all new areas for the two of us. Nonetheless, with a lot of research and effort, we were able to solve this challenge while simultaneously learn a lot.
+
+Securing the user's information was a huge challenge. We knew that creating a HIPAA-compliant app was not possible given the time and resources for this project, however, we attempted to do so attempted to do this by using the User UID, for this can only be accessed by those with access to the project's Firebase console.
+
+It was also difficult to know how exactly we wanted our data to look like in the database. We were unsure about what to store, but we decided on storing the User UID, timestamp, and an array with the checked values from the symptom survey.
+
+For future implementations of this project, we hope to find a way to encrypt the user's identifying information before storing it, in order to make the app HIPAA-compliant. We would also implement a better front end design, as we now have more experience with web development.
+
+## Solution Design (incomplete–admin dashboard)
+As soon as the user clicks on the website, they are prompted to sign in with Google SSO. Following a sucessful sign in, the user is redirected to the homepage of the web app, where they can take the daily symptom survey. This survey lists eight symptoms, all of which were taken from Boston University's daily symptom screen. The user can check as many symptoms as they want, or none at all, before submitting. The results, along with date and the user's unique identifier, are saved to the database. It should be noted that if the user is not logged in, nothing will save to the database.
+
+On the righthand side of the screen, there is an icon that will reveal a side navigation panel when you click on it. Once clicked, you will see options for "Home", "Your Data", and "COVID Data".
+
+The page titled "Your Data" is the page with the user dashboard. At first, the page only shows two textboxes. The first textbox asks for the user's email. If the user enters the wrong email or a different email than the one that they are currently logged in with, they will not receive the key to access the user dashboard. Upon entering the email that they are currently logged in with, the user will receive a key. Similar to the email textbox, entering the wrong key will show no results; however, entering the correct key will give the user access to the number of positive symptoms and the dates they reported feeling those symptoms. This will appear on the same page. This key is the User UID, which is unique to every email address that logs into the web app. Again, similar to the symptom test, these textboxes will not show anything if no one is logged in.
+
+In the "COVID Data" page, an API key is used to gather data about COVID-19 in the United States. This page lists:
+* Current date
+* Last update
+* Total test results
+* New tests
+* Total positive tests
+* New positive cases
+* Total recovered
+* Total negative tests
+* Total deaths
+* New deaths
+* Total hospitalized
+* Currently hospitalized
+* Newly hospitalized
+
+The link to the API is listed in the References section below.
+
 Workflow diagram:
 
-<img src="./images-report/workflow.png" width ="50%" />
+<img src="./images-report/workflow.png"/>
 
 Initial sketch:
 
-<img src="./images-report/initialsketch.jpg" width ="50%" />
+<img src="./images-report/initialsketch.jpg"/>
 
 #### Sprint 1 – Sunday, 9/13
 * Front end/code skeleton
