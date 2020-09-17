@@ -14,6 +14,7 @@ function submitClick(name) {
 	firebase.auth().onAuthStateChanged(function(user) {
 		if (user) {
 	var currentuser = user.uid; // not hipaa compliant sorry :-(
+	var useremail = user.email;
 
 	// push checked symptoms (positive symptoms) into an array
 	var selected = new Array(); // number of positive symptoms
@@ -29,7 +30,7 @@ function submitClick(name) {
 	var testdate = new Date();
 
 	// want this to go into database
-	var userresults = {person: currentuser, date: testdate, positive_symptoms: selected};
+	var userresults = {person: currentuser, email: useremail, date: testdate, positive_symptoms: selected};
 	console.log(userresults);
 
 	var newUserRef = db.collection("user").doc();
