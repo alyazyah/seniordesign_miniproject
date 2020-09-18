@@ -6,13 +6,25 @@
   	<link rel="stylesheet" href="css/coviddata.css">
   	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="/__/firebase/7.20.0/firebase-app.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="/__/firebase/7.20.0/firebase-analytics.js"></script>
+
+	<script src="/__/firebase/7.20.0/firebase-auth.js"></script>
+	<script src="/__/firebase/7.20.0/firebase-firestore.js"></script>
+
+	<!-- Initialize Firebase -->
+	<script src="/__/firebase/init.js"></script>
   	</head>
 	<body class="fullscreen">
   		<div class="container" id="covidData"></div>
 		<nav id="sidenav">
 			<ul>
 				<li><a href="home.html">Home</a></li>
-				<li><a href="yourdata.html">Your Data</a></li>
+				<li><a id="changing-link" href="yourdata.html">Your Data</a></li>
 				<li><a href="coviddata.html">COVID Data</a></li>
 			</ul>
 		</nav>
@@ -35,7 +47,7 @@
  				const dataToDisp = ["date","dateChecked","totalTestResults","totalTestResultsIncrease","positive","positiveIncrease","recovered","negative","death","deathIncrease","hospitalizedCumulative","hospitalizedCurrently","hospitalizedIncrease"];
 
  				const covidData = dataToDisp.map(item => {
- 					const d = (item === "date" || item === "dateChecked") ? (item === "date") ?`${data[item].toString().slice(-4,-2)}-${data[item].toString().slice(-2)}-${data[item].toString().slice(-8,-4)}`: `${new Date(data[item]).getMonth()+1}-${new Date(data[item]).getDate()}-${new Date(data[item]).getFullYear()}` : data[item].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+ 					const d = (item === "date" || item === "dateChecked") ? (item === "date") ?`${data[item].toString().slice(-4,-2)}-${data[item].toString().slice(-2)}-${data[item].toString().slice(-8,-4)}`: `${new Date(data[item]).getMonth()+1}-${new Date(data[item]).getDate()+1}-${new Date(data[item]).getFullYear()}` : data[item].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
  					const elm = `
  					<div class="card">
  						<i class="icon fas fa-${dispText(item).icon}"></i>
@@ -60,31 +72,31 @@
  						icon = "calendar-alt";
  						break;
  					case "dateChecked": 
- 						str = "Last update";
+ 						str = "Last Update";
  						icon = "clock";
  						break;
  					case "totalTestResults": 
- 						str = "Total test results";
+ 						str = "Total Test Results";
  						icon = "vial";
  						break;
  					case "totalTestResultsIncrease": 
- 						str = "New tests";
+ 						str = "New Tests";
  						icon = "vial";
  						break;
  					case "positive": 
- 						str = "Total positive tests";
+ 						str = "Total Positive Tests";
  						icon = "plus";
  						break;
  					case "positiveIncrease": 
- 						str = "New positive cases";
+ 						str = "New Positive Cases";
  						icon = "plus";
  						break;
  					case "recovered": 
- 						str = "Total recovered";
+ 						str = "Total Recovered";
  						icon = "hospital-user";
  						break;
  					case "negative": 
- 						str = "Total negative tests";
+ 						str = "Total Negative Tests";
  						icon = "minus";
  						break;
  					case "death": 
@@ -92,19 +104,19 @@
  						icon = "skull-crossbones";
  						break;
  					case "deathIncrease": 
- 						str = "New deaths";
+ 						str = "New Deaths";
  						icon = "skull-crossbones";
  						break;
  					case "hospitalizedCumulative": 
- 						str = "Total hospitalized";
+ 						str = "Total Hospitalized";
  						icon = "hospital-user";
  						break;
  					case "hospitalizedCurrently": 
- 						str = "Currently hospitalized";
+ 						str = "Currently Hospitalized";
  						icon = "hospital-user";
  						break;
  					case "hospitalizedIncrease": 
- 						str = "Newly hospitalized";
+ 						str = "Newly Hospitalized";
  						icon = "hospital-user";
  						break;
  					default: 
@@ -125,6 +137,19 @@
 					sidenav.style.right = "-250px";
 				}
 			}
+
+			window.addEventListener("load", () => {
+				const menuLink = document.getElementById("changing-link");
+
+				const adminUsers = ["mohs@bu.edu", "alyazyah@bu.edu", "osama@bu.edu", "apisano@bu.edu", "mhirsch@bu.edu"];
+				firebase.auth().onAuthStateChanged(function(user){
+					if(adminUsers.includes(user.email)){
+						menuLink.textContent = "Admin Data";
+						menuLink.setAttribute("href","admindata.html");
+					}		
+				});
+			});
+
 		</script>
 	</body>
 </html>
