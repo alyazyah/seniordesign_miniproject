@@ -5,221 +5,192 @@
   <title>COVID-19 Miniproject | Your Data</title>
   <link rel="stylesheet" href="css/homedata.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="/__/firebase/7.20.0/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+   https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="/__/firebase/7.20.0/firebase-analytics.js"></script>
+
+  <script src="/__/firebase/7.20.0/firebase-auth.js"></script>
+  <script src="/__/firebase/7.20.0/firebase-firestore.js"></script>
+
+  <!-- Initialize Firebase -->
+  <script src="/__/firebase/init.js"></script>
+</head>
 <body class="fullscreen">
-  <div class="container">
+  	<div class="container" id="adminData"></div>
 
-  	<!-- The core Firebase JS SDK is always required and must be listed first -->
-	<script src="/__/firebase/7.20.0/firebase-app.js"></script>
+	<nav id="sidenav">
+		<ul>
+			<li><a href="home.html">Home</a></li>
+			<li><a id="changing-link" href="yourdata.html">Your Data</a></li>
+			<li><a href="coviddata.html">COVID Data</a></li>
+		</ul>
+	</nav>
 
-	<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-	<script src="/__/firebase/7.20.0/firebase-analytics.js"></script>
+	<img src="images/menu.png" id="menuBtn">
 
-	<script src="/__/firebase/7.20.0/firebase-auth.js"></script>
-	<script src="/__/firebase/7.20.0/firebase-firestore.js"></script>
-
-	<!-- Initialize Firebase -->
-	<script src="/__/firebase/init.js"></script>
-
-	<h1>Admin</h1>
-</div>
-
-<nav id="sidenav">
-	<ul>
-		<li><a href="home.html">Home</a></li>
-		<li><a id="changing-link" href="yourdata.html">Your Data</a></li>
-		<li><a href="coviddata.html">COVID Data</a></li>
-	</ul>
-</nav>
-
-<img src="images/menu.png" id="menuBtn">
-
-<script>
-	document.addEventListener('DOMContentLoaded', event => {
-		const app = firebase.app();
-        console.log(app)
-    });
-</script>
+	<script>
+		document.addEventListener('DOMContentLoaded', event => {
+			const app = firebase.app();
+        	console.log(app)
+   	 });
+	</script>
 
 
-<script>
-	//get firestore database data 
-	function getData() {
- 		let users = [];
- 		firebase.firestore().collection('user').get()
-   		.then(querySnapshot => {
-     		querySnapshot.docs.forEach(doc => {
-      		users.push(doc.data());
-    		});
- 		});
- 		return users;
-	}
-
-	const menuBtn = document.getElementById("menuBtn");
-	const sidenav = document.getElementById("sidenav");
-	const adminLink = document.getElementById("admin-link");
-
-	const db = getData();
-	const dbTimer = setInterval(checkDataChange, 100);
-	const symptoms = {
-		"1": "Fever",
-		"2": "Cough",
-		"3": "Short Breath",
-		"4": "Sore Throat",
-		"5": "Loss of Taste/Smell",
-		"6": "Vomiting",
-		"7": "Fatigue",
-		"8": "Muscle Ache"
-	};
-
-	function checkDataChange(){
-		if(db.length > 0){
-			admindata();
-		} else {
-			console.log("loading data");
+	<script>
+		//get firestore database data 
+		function getData() {
+ 			let users = [];
+ 			firebase.firestore().collection('user').get()
+   			.then(querySnapshot => {
+     			querySnapshot.docs.forEach(doc => {
+      			users.push(doc.data());
+    			});
+ 			});
+ 			return users;
 		}
-	}
 
-  	function admindata() {
-  		clearInterval(dbTimer);
+		const menuBtn = document.getElementById("menuBtn");
+		const sidenav = document.getElementById("sidenav");
+		const adminLink = document.getElementById("admin-link");
 
-  		//get # of users
-  		const numUsers = db
-  		.map(({ person }) => person)
-  		.reduce((names, person) => {
-    	const count = names[person] || 0;
-    	names[person] = count + 1;
-    	return names;
-  		}, {});
+		const db = getData();
+		const dbTimer = setInterval(checkDataChange, 100);
+		const symptoms = {
+			"1": "Fever",
+			"2": "Cough",
+			"3": "Short Breath",
+			"4": "Sore Throat",
+			"5": "Loss of Taste/Smell",
+			"6": "Vomiting",
+			"7": "Fatigue",
+			"8": "Muscle Ache"
+		};
 
-  		//get users entered today
-  		const entries = db;
-  		const users = [...new Set(entries.map(({person}) => person))];
-  		const latestStamp = new Array(users.length);
-  		const today = new Date();
-  		const day = today.getDate();
-  		const trial = new Date(entries[0].date.seconds*1000);
-
-  		//create array of latest entries
-  		// for (var i = 0; i < entries.length; i++) {
-  		// 	if(entries[i].date.seconds > ){
-
-  		// 	}
-  		// }
-
-  		//log shit
-  		console.log("numUsers",Object.keys(numUsers).length); 
-  		console.log(Object.keys(numUsers));
-
-  		console.log("usersToday", trial);
-
-  	}
-
-	//side navi
-	sidenav.style.right = "-250px";
-	
-	menuBtn.onclick = function() {
-		if(sidenav.style.right=="-250px") {
-			sidenav.style.right = "0px";
-		} else {
-			sidenav.style.right = "-250px";
-		}
-	}
-
-	window.addEventListener("load", () => {
-		const menuLink = document.getElementById("changing-link");
-
-		const adminUsers = ["mohs@bu.edu", "alyazyah@bu.edu", "osama@bu.edu", "apisano@bu.edu", "mhirsch@bu.edu"];
-		firebase.auth().onAuthStateChanged(function(user){
-			if(adminUsers.includes(user.email)){
-				menuLink.textContent = "Admin Data";
-				menuLink.setAttribute("href","admindata.html");
+		function checkDataChange(){
+			if(db.length > 0){
+				admindata();
+			} else {
+				console.log("loading data");
 			}
-		});
-	});
-
-</script>
-
-<script>
-
-// validate email & get user key
-function enterClick(name) {
-	
-	firebase.auth().onAuthStateChanged(function(user) {
-
-		if (user) {
-		const currentuser = user.uid;
-		var currentuseremail = user.email; // again not hipaa compliant sorry :-(
-		console.log(currentuseremail);
-		const uemail = document.getElementById("uemail").value;
-
-		if (uemail !== currentuseremail) {
-			document.getElementById("showuid").innerHTML = "";
-			window.alert("Please enter the email you logged in with.");
-		} else {
-			// print uid to screen
-			document.getElementById("showuid").innerHTML = currentuser;
 		}
 
-} else {
-		console.log("No one is signed in.");
-	}
-});
+  		function admindata() {
+  			clearInterval(dbTimer);
 
-return false;
+  			//declare variables
+  			const entries = db;
+  			const users = [...new Set(entries.map(({email}) => email))];
+  			const latestStamp = new Array(users.length);
+  			const latestSymp = new Array(users.length);
+  			const enteredToday = new Array(users.length);
+  			const fever = new Array(users.length);
+  			const cough = new Array(users.length);
+  			const breath = new Array(users.length);
+  			const throat = new Array(users.length);
+  			const smellTaste = new Array(users.length);
+  			const vomit = new Array(users.length);
+  			const fatigue = new Array(users.length);
+  			const muscle = new Array(users.length);
+  			let numEnteredToday = 0;
+  			let numSymp1 = 0;
+  			let numSymp2 = 0;
+  			let numSymp3 = 0;
+  			let numSymp4 = 0;
+  			let numSymp5 = 0;
+  			let numSymp6 = 0;
+  			let numSymp7 = 0;
+  			let numSymp8 = 0;
+  			const today = new Date();
 
-}
+  			//initialize latest Stamp arrays to be zeros
+  			for (var i = 0; i < users.length; i++) {
+  				latestStamp[i] = 0;
+  				latestSymp[i] = new Array(8);
+  				enteredToday[i] = 0;
+  			}
 
-</script>
+  			//populate array of latest entries
+  			for (var i = 0; i < entries.length; i++) {
+  				if(entries[i].date.seconds > latestStamp[users.indexOf(entries[i].email)]){
+  					latestStamp[users.indexOf(entries[i].email)] = entries[i].date.seconds;
+  					latestSymp[users.indexOf(entries[i].email)] = entries[i].positive_symptoms;
+  				}
+  			}
 
-<script>
+  			//chack who entered today 
+  			for (var i = 0; i < users.length; i++) {
+  				const curEntryDate = new Date(latestStamp[i]*1000);
+  				if((today.getDate() === curEntryDate.getDate()) && (today.getMonth() === curEntryDate.getMonth()) && (today.getYear() === 	curEntryDate.getYear())){
+  					enteredToday[i] = 1;
+  					numEnteredToday++;
+  				}
+  			}
 
-// display user dashboard!
-function goClick(name) {
-	
-	const db = firebase.firestore();
-	firebase.auth().onAuthStateChanged(function(user) {
+  			//print everything
+  			adminData.innerHTML = `
+  			<h3>Number of Users: ${users.length}</h3>
+  			<h3>Number of People Entered Today: ${numEnteredToday}</h3>
+  			<h3>Number of People Did Not Enter Today: ${users.length-numEnteredToday}</h3>
+  			<hr>
+  			<p><h3>List of People Did Not Enter Today: </h3></p>
+  			<hr>
+  			<h3>% of Users Experiencing Each Symptom: </h3>
+  			<h4>Fever: </h4>
+  			<h4>Cough: </h4>
+  			<h4>Short Breath: </h4>
+  			<h4>Sore Throat: </h4>
+  			<h4>Loss of Taste/Smell: </h4>
+  			<h4>Vomiting: </h4>
+  			<h4>Fatigue: </h4>
+  			<h4>Muscle Ache: </h4>
+  			<hr>
+  			<h3>List of Users Experiencing Each Symptom: </h3>
+  			<h4>Fever: </h4>
+  			<h4>Cough: </h4>
+  			<h4>Short Breath: </h4>
+  			<h4>Sore Throat: </h4>
+  			<h4>Loss of Taste/Smell: </h4>
+  			<h4>Vomiting: </h4>
+  			<h4>Fatigue: </h4>
+  			<h4>Muscle Ache: </h4>
+  			<hr>
+  			`;
 
-		if (user) {
 
-		const currentuser = user.uid;
-		const key = document.getElementById("key").value;
+  			//log stuff
+  			console.log("users", users);
+  			console.log("latestStamp", latestStamp);
+  			console.log("latestSymp", latestSymp);
+  			console.log("enteredToday", enteredToday);
+  			console.log("numEnteredToday", numEnteredToday);
+  		}
 
-		if (key !== currentuser) { // validate key
-			window.alert("Please enter the correct key.");
-		} else {
-			// fetch from database, based on key (uid) entered
-			db.collection("user").where("person", "==", currentuser)
-			.get()
-			.then(function(querySnapshot) {
-				querySnapshot.forEach(function(doc) {
-					// doc.data() is never undefined for query doc snapshots
-					console.log(doc.id, " => ", doc.data());
+		//side navi
+		sidenav.style.right = "-250px";
+			
+		menuBtn.onclick = function() {
+			if(sidenav.style.right=="-250px") {
+				sidenav.style.right = "0px";
+			} else {
+				sidenav.style.right = "-250px";
+			}
+		}
 
-					const olddate = doc.data().date;
-					//var printdate = new Date(olddate);
-					const symptomnum = doc.data().positive_symptoms;
+		window.addEventListener("load", () => {
+			const menuLink = document.getElementById("changing-link");
 
-					// display 
-					userdash.innerHTML += `<p><b>Date:</b> ${olddate.toDate()}</p>`; // show date
-					userdash.innerHTML += `<p><b>Number of positive symptoms:</b> ${symptomnum.length}</p>`; // show how many positive symptoms
-				});
-			})
-			.catch(function(error) {
-				console.log("Error getting documents: ", error);
+			const adminUsers = ["mohs@bu.edu", "alyazyah@bu.edu", "osama@bu.edu", "apisano@bu.edu", "mhirsch@bu.edu"];
+			firebase.auth().onAuthStateChanged(function(user){
+				if(adminUsers.includes(user.email)){
+					menuLink.textContent = "Admin Data";
+					menuLink.setAttribute("href","admindata.html");
+				}
 			});
-		}
+		});
 
-} else {
-		console.log("No one is signed in.");
-	}
-});
-
-return false;
-
-}
-
-</script>
-
+	</script>
 </body>
 </html>
