@@ -135,41 +135,30 @@
   			//populate symptoms arrays and evaluate counters
   			for (var i = 0; i < users.length; i++) {
   				for (var j = 0; j < latestSymp[i].length; j++) {
-  					switch(latestSymp[i][j]){
-  						case 1:
-  							fever[i] = users[i];
-  							numSymp1++;
-  							break;
-  						case 2:
-  							cough[i] = users[i];
-  							numSymp2++;
-  							break;
-  						case 3:
-  							breath[i] = users[i];
-  							numSymp3++;
-  							break;
-  						case 4:
-  							throat[i] = users[i];
-  							numSymp4++;
-  							break;
-  						case 5:
-  							smellTaste[i] = users[i];
-  							numSymp5++;
-  							break;
-  						case 6:
-  							vomit[i] = users[i];
-  							numSymp6++;
-  							break;
-  						case 7:
-  							fatigue[i] = users[i];
-  							numSymp7++;
-  							break;
-  						case 8:
-  							muscle[i] = users[i];
-  							numSymp8++;
-  							break;
-  						default: 
-  							break;
+  					if (latestSymp[i][j] === "1"){
+  						fever[i] = users[i];
+  						numSymp1++;
+  					} else if (latestSymp[i][j] === "2"){
+  						cough[i] = users[i];
+  						numSymp2++;
+  					} else if (latestSymp[i][j] === "3"){
+  						breath[i] = users[i];
+  						numSymp3++;
+  					} else if (latestSymp[i][j] === "4"){
+  						throat[i] = users[i];
+  						numSymp4++;
+  					} else if (latestSymp[i][j] === "5"){
+  						smellTaste[i] = users[i];
+  						numSymp5++;
+  					} else if (latestSymp[i][j] === "6"){
+  						vomit[i] = users[i];
+  						numSymp6++;
+  					} else if (latestSymp[i][j] === "7"){
+  						fatigue[i] = users[i];
+  						numSymp7++;
+  					} else if (latestSymp[i][j] === "8"){
+  						muscle[i] = users[i];
+  						numSymp8++;
   					}
   				}
   			}
@@ -184,14 +173,14 @@
   			<p><h3>List of People Did Not Enter Symptoms Today:</h3>${notEnterList}</p>
   			<hr>
   			<h3>% of Users Experiencing Each Symptom: </h3>
-  			<h4>Fever: ${(numSymp1/users.length)*100}</h4>
-  			<h4>Cough: ${(numSymp2/users.length)*100}</h4>
-  			<h4>Short Breath: ${(numSymp3/users.length)*100}</h4>
-  			<h4>Sore Throat: ${(numSymp4/users.length)*100}</h4>
-  			<h4>Loss of Taste/Smell: ${(numSymp5/users.length)*100}</h4>
-  			<h4>Vomiting: ${(numSymp6/users.length)*100}</h4>
-  			<h4>Fatigue: ${(numSymp7/users.length)*100}</h4>
-  			<h4>Muscle Ache: ${(numSymp8/users.length)*100}</h4>
+  			<h4>Fever: ${(numSymp1/users.length)*100}%</h4>
+  			<h4>Cough: ${(numSymp2/users.length)*100}%</h4>
+  			<h4>Short Breath: ${(numSymp3/users.length)*100}%</h4>
+  			<h4>Sore Throat: ${(numSymp4/users.length)*100}%</h4>
+  			<h4>Loss of Taste/Smell: ${(numSymp5/users.length)*100}%</h4>
+  			<h4>Vomiting: ${(numSymp6/users.length)*100}%</h4>
+  			<h4>Fatigue: ${(numSymp7/users.length)*100}%</h4>
+  			<h4>Muscle Ache: ${(numSymp8/users.length)*100}%</h4>
   			<hr>
   			<h3>List of Users Experiencing Each Symptom: </h3>
   			<h4>Fever: ${fever}</h4>
