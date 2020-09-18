@@ -127,12 +127,11 @@ function goClick(name) {
 					// doc.data() is never undefined for query doc snapshots
 					console.log(doc.id, " => ", doc.data());
 
-					const olddate = doc.data().date;
-					//var printdate = new Date(olddate);
+					const printdate = doc.data().date;
 					const symptomnum = doc.data().positive_symptoms;
 
 					// display 
-					userdash.innerHTML += `<p><b>Date:</b> ${olddate.toDate()}</p>`; // show date
+					userdash.innerHTML += `<p><b>Date:</b> ${printdate.toDate()}</p>`; // show date
 					userdash.innerHTML += `<p><b>Number of positive symptoms:</b> ${symptomnum.length}</p>`; // show how many positive symptoms
 				});
 			})
