@@ -24,8 +24,10 @@
 	<nav id="sidenav">
 		<ul>
 			<li><a href="home.html">Home</a></li>
-			<li><a id="changing-link" href="yourdata.html">Your Data</a></li>
+			<li><a href="yourdata.html">Your Data</a></li>
+			<li><a id="changing-link"></a></li>
 			<li><a href="coviddata.html">COVID Data</a></li>
+
 		</ul>
 	</nav>
 
@@ -86,6 +88,7 @@
   			const latestStamp = new Array(users.length);
   			const latestSymp = new Array(users.length);
   			const enteredToday = new Array(users.length);
+  			const notEnterList = new Array(users.length);
   			const fever = new Array(users.length);
   			const cough = new Array(users.length);
   			const breath = new Array(users.length);
@@ -129,35 +132,77 @@
   				}
   			}
 
+  			//populate symptoms arrays and evaluate counters
+  			for (var i = 0; i < users.length; i++) {
+  				for (var j = 0; j < latestSymp[i].length; j++) {
+  					switch(latestSymp[i][j]){
+  						case 1:
+  							fever[i] = users[i];
+  							numSymp1++;
+  							break;
+  						case 2:
+  							cough[i] = users[i];
+  							numSymp2++;
+  							break;
+  						case 3:
+  							breath[i] = users[i];
+  							numSymp3++;
+  							break;
+  						case 4:
+  							throat[i] = users[i];
+  							numSymp4++;
+  							break;
+  						case 5:
+  							smellTaste[i] = users[i];
+  							numSymp5++;
+  							break;
+  						case 6:
+  							vomit[i] = users[i];
+  							numSymp6++;
+  							break;
+  						case 7:
+  							fatigue[i] = users[i];
+  							numSymp7++;
+  							break;
+  						case 8:
+  							muscle[i] = users[i];
+  							numSymp8++;
+  							break;
+  						default: 
+  							break;
+  					}
+  				}
+  			}
+
+
   			//print everything
   			adminData.innerHTML = `
   			<h3>Number of Users: ${users.length}</h3>
   			<h3>Number of People Entered Today: ${numEnteredToday}</h3>
   			<h3>Number of People Did Not Enter Today: ${users.length-numEnteredToday}</h3>
   			<hr>
-  			<p><h3>List of People Did Not Enter Today: </h3></p>
+  			<p><h3>List of People Did Not Enter Symptoms Today:</h3>${notEnterList}</p>
   			<hr>
   			<h3>% of Users Experiencing Each Symptom: </h3>
-  			<h4>Fever: </h4>
-  			<h4>Cough: </h4>
-  			<h4>Short Breath: </h4>
-  			<h4>Sore Throat: </h4>
-  			<h4>Loss of Taste/Smell: </h4>
-  			<h4>Vomiting: </h4>
-  			<h4>Fatigue: </h4>
-  			<h4>Muscle Ache: </h4>
+  			<h4>Fever: ${(numSymp1/users.length)*100}</h4>
+  			<h4>Cough: ${(numSymp2/users.length)*100}</h4>
+  			<h4>Short Breath: ${(numSymp3/users.length)*100}</h4>
+  			<h4>Sore Throat: ${(numSymp4/users.length)*100}</h4>
+  			<h4>Loss of Taste/Smell: ${(numSymp5/users.length)*100}</h4>
+  			<h4>Vomiting: ${(numSymp6/users.length)*100}</h4>
+  			<h4>Fatigue: ${(numSymp7/users.length)*100}</h4>
+  			<h4>Muscle Ache: ${(numSymp8/users.length)*100}</h4>
   			<hr>
   			<h3>List of Users Experiencing Each Symptom: </h3>
-  			<h4>Fever: </h4>
-  			<h4>Cough: </h4>
-  			<h4>Short Breath: </h4>
-  			<h4>Sore Throat: </h4>
-  			<h4>Loss of Taste/Smell: </h4>
-  			<h4>Vomiting: </h4>
-  			<h4>Fatigue: </h4>
-  			<h4>Muscle Ache: </h4>
-  			<hr>
-  			`;
+  			<h4>Fever: ${fever}</h4>
+  			<h4>Cough: ${cough}</h4>
+  			<h4>Short Breath: ${breath}</h4>
+  			<h4>Sore Throat: ${throat}</h4>
+  			<h4>Loss of Taste/Smell: ${smellTaste}</h4>
+  			<h4>Vomiting: ${vomit}</h4>
+  			<h4>Fatigue: ${fatigue}</h4>
+  			<h4>Muscle Ache: ${muscle}</h4>
+  			<hr>`;
 
 
   			//log stuff
@@ -166,6 +211,21 @@
   			console.log("latestSymp", latestSymp);
   			console.log("enteredToday", enteredToday);
   			console.log("numEnteredToday", numEnteredToday);
+  			console.log("fever", fever);
+  			console.log("cough", cough);
+  			console.log("breath", breath);
+  			console.log("throat", throat);
+  			console.log("smellTaste", smellTaste);
+  			console.log("vomit", vomit);
+  			console.log("fatigue", fatigue);
+  			console.log("numSymp1", numSymp1);
+  			console.log("numSymp2", numSymp2);
+  			console.log("numSymp3", numSymp3);
+  			console.log("numSymp4", numSymp4);
+  			console.log("numSymp5", numSymp5);
+  			console.log("numSymp6", numSymp6);
+  			console.log("numSymp7", numSymp7);
+  			console.log("numSymp8", numSymp8);
   		}
 
 		//side navi

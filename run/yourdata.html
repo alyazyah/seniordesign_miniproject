@@ -43,6 +43,7 @@
 	<ul>
 		<li><a href="home.html">Home</a></li>
 		<li><a href="yourdata.html">Your Data</a></li>
+		<li><a id="changing-link"></a></li>
 		<li><a href="coviddata.html">COVID Data</a></li>
 	</ul>
 </nav>
@@ -101,6 +102,17 @@ return false;
 
 }
 
+window.addEventListener("load", () => {
+		const menuLink = document.getElementById("changing-link");
+
+		const adminUsers = ["mohs@bu.edu", "alyazyah@bu.edu", "osama@bu.edu", "apisano@bu.edu", "mhirsch@bu.edu"];
+		firebase.auth().onAuthStateChanged(function(user){
+			if(adminUsers.includes(user.email)){
+				menuLink.textContent = "Admin Data";
+				menuLink.setAttribute("href","admindata.html");
+			}
+		});
+	});
 </script>
 
 <script>
